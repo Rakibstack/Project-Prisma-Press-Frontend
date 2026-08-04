@@ -2,8 +2,9 @@ import React from 'react';
 
 const userRegisterPage = () => {
     return (
+        
         <div>
-            
+        
         </div>
     );
 };
