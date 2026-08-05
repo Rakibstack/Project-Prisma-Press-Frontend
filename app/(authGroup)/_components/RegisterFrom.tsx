@@ -38,15 +38,7 @@ const RegisterFrom = () => {
              
               <Input id="password" type="password" placeholder='Enter Your Password' required />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="profile">Profile Image</Label>
-              <Input
-                id="profile"
-                type="text"
-                placeholder="Enter Your Profile image"
-                required
-              />
-            </div>
+            
           </div>
         </form>
       </CardContent>

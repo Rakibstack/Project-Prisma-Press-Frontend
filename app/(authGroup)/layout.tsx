@@ -4,7 +4,7 @@ import React from "react";
 const authLayout = ({ children }:
    { children: React.ReactNode }) => {
 
-  return <div className="">
+  return <div className="bg-gray-100">
     {children}
     </div>;
 };
