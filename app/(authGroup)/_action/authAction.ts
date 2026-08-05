@@ -1,7 +1,17 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
+type prevState = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+  };
+};
 
 export const loginAction = async (prevState: prevState, formData: FormData) => {
   const email = formData.get("email") as string;
@@ -35,6 +45,8 @@ export const loginAction = async (prevState: prevState, formData: FormData) => {
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
+
+    redirect('/dashboard','replace')
   }
 
   return result;

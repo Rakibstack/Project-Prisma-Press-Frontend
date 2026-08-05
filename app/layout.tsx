@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import Navber from "@/components/shared/Navber";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", "font-sans", inter.variable)}
     >
+        <Navber></Navber>
       <body className="min-h-full flex flex-col">
         {children}
         <Toaster position="top-right" richColors  />
