@@ -1,7 +1,15 @@
+import Navber from "@/components/shared/Navber";
+import { getUser } from "@/service/getUser";
 import React from "react";
 
-const dashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div>{children}</div>;
+const dashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+
+    const user = await getUser();
+  
+  return <div>
+    <Navber user={user}></Navber>
+    {children}
+    </div>;
 };
 
 export default dashboardLayout;
