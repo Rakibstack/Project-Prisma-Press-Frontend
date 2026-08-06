@@ -1,8 +1,7 @@
-
+"use client"
 import Link from 'next/link'
 import {
   BellIcon,
-  ChevronDownIcon,
   CreditCardIcon,
   LayoutDashboardIcon,
   LogOutIcon,
@@ -31,10 +30,11 @@ import {
 } from '@/components/ui/navigation-menu'
 
 const navItems = [
-  { label: 'Overview', href: '/' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Team', href: '/team' },
-  { label: 'Resources', href: '/resources' },
+  { label: 'Home', href: '/' },
+  { label: 'All Posts', href: '/properties' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Subscriptions', href: '/subscriptions' },
+  { label: 'Dashboard', href: '/dashboard' },
 ]
 
 const accountItems = [
@@ -45,13 +45,13 @@ const accountItems = [
 
 export default function Navber() {
   return (
-    <header className="border-b border-border bg-background">
+    <div className="border-b border-border bg-background">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Northstar home">
+        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="next.js press home">
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <SparklesIcon aria-hidden="true" />
           </span>
-          <span className="text-base font-semibold tracking-tight">Northstar</span>
+          <span className="text-base font-semibold tracking-tight">Next.js press</span>
         </Link>
 
         <NavigationMenu className="hidden md:flex">
@@ -69,7 +69,7 @@ export default function Navber() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="flex items-center gap-2">
+         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" aria-label="Notifications">
             <BellIcon aria-hidden="true" />
           </Button>
@@ -79,15 +79,13 @@ export default function Navber() {
                 <Button variant="ghost" className="gap-2 px-1.5 sm:px-2.5" aria-label="Open user menu" />
               }
             >
-              {/* <Avatar size="sm">
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar> */}
-              <span className="hidden text-sm font-medium sm:inline">Jordan Davis</span>
-              <ChevronDownIcon aria-hidden="true" />
+              <Avatar size="sm">
+                <AvatarFallback> <UserIcon className='size-5' /> </AvatarFallback>
+              </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuGroup>
-                <DropdownMenuLabel>
+                <DropdownMenuLabel className="pl-8">
                   <span className="block">Jordan Davis</span>
                   <span className="block font-normal text-muted-foreground">jordan@example.com</span>
                 </DropdownMenuLabel>
@@ -117,6 +115,6 @@ export default function Navber() {
           </DropdownMenu>
         </div>
       </div>
-    </header>
+    </div>
   )
 }

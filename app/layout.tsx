@@ -22,9 +22,9 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", "font-sans", inter.variable)}
     >
-        <Navber></Navber>
       <body className="min-h-full flex flex-col">
-        {children}
+        <Navber></Navber>
+          {children}
         <Toaster position="top-right" richColors  />
       </body>
     </html>
