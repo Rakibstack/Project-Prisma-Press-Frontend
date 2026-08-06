@@ -4,7 +4,7 @@ import { getUser } from "@/service/getUser";
 export default async function HomePage() {
 
    const user = await getUser()
-   console.log(user);
+   console.log(user,'user Data');
    
   return <div>
     hello Next.js <br />

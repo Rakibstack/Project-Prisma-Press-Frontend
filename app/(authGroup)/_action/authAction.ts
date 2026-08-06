@@ -37,13 +37,13 @@ export const loginAction = async (prevState: prevState, formData: FormData) => {
 
     cookieStore.set("accessToken", result.data.accessToken, {
       httpOnly: true,
-      sameSite: "none",
-      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24,
     });
     cookieStore.set("refreshToken", result.data.refreshToken, {
       httpOnly: true,
-      sameSite: "none",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     redirect('/dashboard','replace')
