@@ -28,6 +28,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { logoutUser } from "@/service/logoutUser";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -70,6 +71,15 @@ type NavberProps = {
 };
 
 export default function Navber({ user }: NavberProps) {
+  const handleUserMenuAction = async (action: string) => {
+
+    if(action === 'logout') {
+      // Handle logout logic here
+      await logoutUser()
+    }
+    
+  };
+
   return (
     <div className="border-b border-border bg-background">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
@@ -136,7 +146,7 @@ export default function Navber({ user }: NavberProps) {
                 {accountItems.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <DropdownMenuItem key={item.label}>
+                    <DropdownMenuItem onClick={() => handleUserMenuAction(item.label.toLowerCase())} key={item.label}>
                       <Icon aria-hidden="true" />
                       {item.label}
                     </DropdownMenuItem>
@@ -148,7 +158,9 @@ export default function Navber({ user }: NavberProps) {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={async () => {
+                await handleUserMenuAction("logout")
+              }}>
                 <LogOutIcon aria-hidden="true" />
                 Sign out
               </DropdownMenuItem>
