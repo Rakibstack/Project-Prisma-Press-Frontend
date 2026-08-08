@@ -29,6 +29,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { logoutUser } from "@/service/logoutUser";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -71,13 +73,15 @@ type NavberProps = {
 };
 
 export default function Navber({ user }: NavberProps) {
-  const handleUserMenuAction = async (action: string) => {
+  const router = useRouter();
 
-    if(action === 'logout') {
+  const handleUserMenuAction = async (action: string) => {
+    if (action === "logout") {
       // Handle logout logic here
-      await logoutUser()
+      await logoutUser();
+      toast.success("User Logout Successfully");
+      router.push("/login");
     }
-    
   };
 
   return (
@@ -111,62 +115,77 @@ export default function Navber({ user }: NavberProps) {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" aria-label="Notifications">
-            <BellIcon aria-hidden="true" />
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  className="gap-2 px-1.5 sm:px-2.5"
-                  aria-label="Open user menu"
-                />
-              }
-            >
-              <Avatar size="sm">
-                <AvatarFallback>
-                  {" "}
-                  <UserIcon className="size-5" />{" "}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuGroup>
-                <DropdownMenuLabel className="pl-8">
-                  <span className="block">Jordan Davis</span>
-                  <span className="block font-normal text-muted-foreground">
-                    jordan@example.com
-                  </span>
-                </DropdownMenuLabel>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                {accountItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <DropdownMenuItem onClick={() => handleUserMenuAction(item.label.toLowerCase())} key={item.label}>
-                      <Icon aria-hidden="true" />
-                      {item.label}
-                    </DropdownMenuItem>
-                  );
-                })}
-                <DropdownMenuItem>
-                  <LayoutDashboardIcon aria-hidden="true" />
-                  Switch workspace
+        {user.success ? (
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" aria-label="Notifications">
+              <BellIcon aria-hidden="true" />
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    className="gap-2 px-1.5 sm:px-2.5"
+                    aria-label="Open user menu"
+                  />
+                }
+              >
+                <Avatar size="sm">
+                  <AvatarFallback>
+                    {" "}
+                    <UserIcon className="size-5" />{" "}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="pl-8">
+                    <span className="block">
+                      {user?.data?.userProfile.name}
+                    </span>
+                    <span className="block font-normal text-muted-foreground">
+                      {user?.data?.userProfile.email}
+                    </span>
+                  </DropdownMenuLabel>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  {accountItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <DropdownMenuItem
+                        onClick={() =>
+                          handleUserMenuAction(item.label.toLowerCase())
+                        }
+                        key={item.label}
+                      >
+                        <Icon aria-hidden="true" />
+                        {item.label}
+                      </DropdownMenuItem>
+                    );
+                  })}
+                  <DropdownMenuItem>
+                    <LayoutDashboardIcon aria-hidden="true" />
+                    Switch workspace
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={async () => {
+                    await handleUserMenuAction("logout");
+                  }}
+                >
+                  <LogOutIcon aria-hidden="true" />
+                  Sign out
                 </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={async () => {
-                await handleUserMenuAction("logout")
-              }}>
-                <LogOutIcon aria-hidden="true" />
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        ) : (
+          <Link href={"/login"}>
+            <Button className="cursor-pointer">Login</Button>
+          </Link>
+        )}
       </div>
     </div>
   );

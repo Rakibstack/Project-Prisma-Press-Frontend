@@ -1,5 +1,4 @@
 
-import React from "react";
 import LoginFrom from "../_components/loginFrom";
 
 const userLoginPage = () => {

@@ -8,7 +8,7 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 const initialState = {
-  success: false,
+  success: null,
   statusCode: 0,
   message: "",
   data: {
@@ -22,15 +22,14 @@ export default function LoginFrom() {
    const [state,action,pending] = useActionState(loginAction,initialState);
 
    useEffect(() => {
-    if(!state) return;
-
+    if(state.success === null) return;
+    
     if(state.success){
       toast.success(state.message || "User Login Successfully")
-    }
-    if(!state.success){
+    }else{
       toast.error(state.message || "User Login Failed")
     }
-   },[state])
+   },[state]);
 
   return (
     <Card className="w-full max-w-sm">
