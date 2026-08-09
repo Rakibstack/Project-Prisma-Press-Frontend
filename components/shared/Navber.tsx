@@ -182,9 +182,14 @@ export default function Navber({ user }: NavberProps) {
             </DropdownMenu>
           </div>
         ) : (
-          <Link href={"/login"}>
+          <div>
+            <Link href={"/login"} className="mr-2">
             <Button className="cursor-pointer">Login</Button>
           </Link>
+            <Link href={"/register"}>
+            <Button className="cursor-pointer">Register</Button>
+          </Link>
+          </div>
         )}
       </div>
     </div>

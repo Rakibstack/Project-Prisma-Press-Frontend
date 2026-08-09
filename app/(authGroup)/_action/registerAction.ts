@@ -1,31 +1,5 @@
 "use server"
 
-/**
- * 
- * {
-    "success": true,
-    "statusCode": 201,
-    "message": "User Register Successfully",
-    "data": {
-        "id": "bde7c172-965c-42df-8e0c-576c1478abb8",
-        "name": "Rakibul hassan Rakib",
-        "email": "Rakib7@gmail.com",
-        "activeStatus": "ACTIVE",
-        "role": "USER",
-        "createdAt": "2026-08-08T08:58:16.936Z",
-        "updatedAt": "2026-08-08T08:58:16.936Z",
-        "profile": {
-            "id": "f59683e1-ddae-4869-bec4-7dd64496a031",
-            "profilePhoto": "www.google.com",
-            "bio": null,
-            "userId": "bde7c172-965c-42df-8e0c-576c1478abb8",
-            "createdAt": "2026-08-08T08:58:16.936Z",
-            "updatedAt": "2026-08-08T08:58:16.936Z"
-        }
-    }
-}
- */
-
  type prevState = {
   success: boolean | null;
   statusCode: number;   

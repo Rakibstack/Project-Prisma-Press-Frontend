@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signupAction } from "../_action/registerAction";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const initialState = {
   success: null,
@@ -95,6 +96,10 @@ const RegisterFrom = () => {
             <Button variant="outline" className="w-full">
               Signup with Google
             </Button>
+            <span className="mt-2">
+              Already have an account
+              <Link href={'/login'} className="font-bold ">{' '}Login</Link>
+            </span>
           </CardFooter>
         </form>
       </CardContent>
