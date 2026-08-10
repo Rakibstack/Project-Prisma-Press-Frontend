@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import  { JwtPayload } from "jsonwebtoken";
+import { jwtUtils } from "./app/utils/jwtUtils";
 
 // This function can be marked `async` if using `await` inside
 const AUTH_ROUTES = ["/login", "/register"];
@@ -11,13 +12,18 @@ export function proxy(request: NextRequest) {
 
   const accessToken = request.cookies.get("accessToken")?.value;
   const decodedToken = accessToken
-    ? (jwt.decode(accessToken) as JwtPayload)
+    ? jwtUtils.verifyToken(accessToken,process.env.JWT_ACCESS_SECRET as string)
     : null;
 
   let userRole = null;
 
-  if (decodedToken) {
-    userRole = decodedToken.role;
+  if(!decodedToken?.success){
+    cookieStore.delete('accessToken')
+  return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  if (decodedToken?.success && decodedToken.data ) {
+    userRole = (decodedToken.data as JwtPayload).role
   }
 
   if (accessToken && AUTH_ROUTES.includes(pathName)) {
