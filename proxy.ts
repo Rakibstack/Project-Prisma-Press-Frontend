@@ -41,6 +41,17 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  if (pathName.startsWith("/dashboard") && userRole !== "USER") {
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  } else if (pathName.startsWith("/admin-Dashboard") && userRole !== "ADMIN") {
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  } else if (
+    pathName.startsWith("/author-Dashboard") &&
+    userRole !== "AUTHOR"
+  ) {
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  }
+
   NextResponse.next();
 }
 
