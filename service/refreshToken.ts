@@ -16,6 +16,7 @@ export const getNewAccessToken = async () => {
   const res = await fetch(
     `${process.env.NEXT_BACKEN_URL}/api/auth/refresh-token`,
     {
+      method: "POST",
       headers: {
         Cookie: `refreshToken=${refreshToken}`,
       },
@@ -25,5 +26,6 @@ export const getNewAccessToken = async () => {
   );
 
   const result = await res.json();
+  
   return result;
 };

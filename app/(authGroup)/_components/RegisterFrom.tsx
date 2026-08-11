@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { signupAction } from "../_action/registerAction";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const initialState = {
   success: null,
@@ -33,15 +34,18 @@ const initialState = {
 const RegisterFrom = () => {
   
   const [state, action, pending] = useActionState(signupAction, initialState);
+  const router = useRouter();
 
   useEffect(() => {
     if (state.success === null) return;
     if (state.success) {
       toast.success(state.message || "User Register Successfully");
+      router.push("/login");
     } else {
       toast.error(state.message || "User Register Failed");
     }
-  }, [state]);
+  }, [state,router]);
+  
   return (
     <Card className="w-full max-w-sm">
       <CardContent>

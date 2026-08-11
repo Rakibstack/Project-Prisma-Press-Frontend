@@ -11,12 +11,12 @@ const PUBLIC_ROUTE = ["/", "/news"];
 
 export async function proxy(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
-  const cookieStore = await cookies()
+  const cookieStore = await cookies();
 
   let accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  const decodedAccessToken = accessToken
+  let decodedAccessToken = accessToken
     ? jwtUtils.verifyToken(accessToken, process.env.JWT_ACCESS_SECRET as string)
     : null;
 
@@ -29,6 +29,7 @@ export async function proxy(request: NextRequest) {
 
   if (!decodedAccessToken?.success && decodedRefreshToken?.success) {
     const result = await getNewAccessToken();
+
     if (result.success) {
       const newAccessToken = result.data.accessToken;
 
@@ -37,7 +38,14 @@ export async function proxy(request: NextRequest) {
         sameSite: "lax",
         maxAge: 60 * 60 * 24,
       });
-      accessToken = newAccessToken
+
+      accessToken = newAccessToken;
+      decodedAccessToken = accessToken
+        ? jwtUtils.verifyToken(
+            accessToken,
+            process.env.JWT_ACCESS_SECRET as string,
+          )
+        : null;
     }
   }
 
@@ -45,7 +53,6 @@ export async function proxy(request: NextRequest) {
 
   if (!decodedAccessToken?.success) {
     cookieStore.delete("accessToken");
-    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   if (decodedAccessToken?.success && decodedAccessToken.data) {
