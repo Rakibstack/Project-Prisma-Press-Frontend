@@ -1,7 +1,7 @@
+import NewsCard from "../premiumNews/newsCard";
 
-import NewsCard from "./newsCard";
 
-interface PremiumNewsListProps {
+interface PublicNewsListProps {
   news: Array<{
     id: string;
     title: string;
@@ -13,20 +13,17 @@ interface PremiumNewsListProps {
   }>;
 }
 
-const PremiumNewsList = ({
-  news,
-}: PremiumNewsListProps) => {
-    
+const PublicNewsList = ({ news }: PublicNewsListProps) => {
   if (!news.length) {
     return (
       <div className="flex min-h-60 items-center justify-center rounded-2xl border border-dashed">
         <div className="text-center">
           <h3 className="font-semibold">
-            No premium news available
+            No news available
           </h3>
 
           <p className="mt-1 text-sm text-muted-foreground">
-            Check back later for new premium articles.
+            There are no public news articles available right now.
           </p>
         </div>
       </div>
@@ -42,4 +39,4 @@ const PremiumNewsList = ({
   );
 };
 
-export default PremiumNewsList;
+export default PublicNewsList;
