@@ -34,10 +34,11 @@ import { useRouter } from "next/navigation";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "All Posts", href: "/properties" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-  { label: "Subscriptions", href: "/subscriptions" },
-  { label: "Dashboard", href: "/dashboard" },
+  { label: "Services", href: "/services" },
+  { label: "News", href: "/news" },
+  { label: "Premium", href: "/premium" },
 ];
 
 const accountItems = [
@@ -104,11 +105,13 @@ export default function Navber({ user }: NavberProps) {
           <NavigationMenuList className="gap-1">
             {navItems.map((item) => (
               <NavigationMenuItem key={item.href}>
-                <NavigationMenuLink
-                  render={<Link href={item.href} />}
-                  className={navigationMenuTriggerStyle()}
-                >
-                  {item.label}
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={item.href}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    {item.label}
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
@@ -184,11 +187,11 @@ export default function Navber({ user }: NavberProps) {
         ) : (
           <div>
             <Link href={"/login"} className="mr-2">
-            <Button className="cursor-pointer">Login</Button>
-          </Link>
+              <Button className="cursor-pointer">Login</Button>
+            </Link>
             <Link href={"/register"}>
-            <Button className="cursor-pointer">Register</Button>
-          </Link>
+              <Button className="cursor-pointer">Register</Button>
+            </Link>
           </div>
         )}
       </div>

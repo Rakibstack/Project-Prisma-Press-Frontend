@@ -26,7 +26,7 @@ interface NewsCardProps {
 
 const NewsCard = ({
   news,
-  isPremium = false,
+  isPremium = true,
 }: NewsCardProps) => {
   return (
     <Card className="group overflow-hidden border-border/60 bg-card py-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
