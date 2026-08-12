@@ -46,8 +46,8 @@ export default async function HomePage() {
             {/* CTA */}
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Button asChild size="lg" className="gap-2">
-                <Link href="/posts">
-                  Explore Posts
+                <Link href="/news">
+                  Explore News
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
