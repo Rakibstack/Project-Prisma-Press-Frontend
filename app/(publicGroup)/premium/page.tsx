@@ -4,50 +4,6 @@ import { Suspense } from "react";
 import PremiumNewsList from "../_components/premiumNews/premiumNewsList";
 import PremiumSkeleton from "../_components/premiumNews/premiumSkeleton";
 
-const PremiumNews = async () => {
-  // Later:
-  // const premiumNews = await getPremiumNews();
-
-  const premiumNews = [
-    {
-      id: "1",
-      title: "The Future of Technology and Modern Web Development",
-      description:
-        "Explore the latest trends, technologies, and ideas shaping the future of modern web development.",
-      image:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475",
-      category: "Technology",
-      publishedAt: "Aug 12, 2026",
-      readTime: 6,
-    },
-    {
-      id: "2",
-      title: "How AI Is Changing the Way We Build Products",
-      description:
-        "Artificial intelligence is transforming product development. Here is what developers need to know.",
-      image:
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995",
-      category: "AI",
-      publishedAt: "Aug 11, 2026",
-      readTime: 8,
-    },
-    {
-      id: "3",
-      title: "Building Better Products Through Better Thinking",
-      description:
-        "Great products start with great thinking. Learn practical principles for building products people love.",
-      image:
-        "https://images.unsplash.com/photo-1552664730-d307ca884978",
-      category: "Business",
-      publishedAt: "Aug 10, 2026",
-      readTime: 5,
-    },
-  ];
-
-  return (
-    <PremiumNewsList news={premiumNews} />
-  );
-};
 
 const PremiumPage = () => {
   return (
@@ -129,7 +85,7 @@ const PremiumPage = () => {
         </div>
 
         <Suspense fallback={<PremiumSkeleton />}>
-          <PremiumNews />
+          <PremiumNewsList />
         </Suspense>
       </section>
     </main>

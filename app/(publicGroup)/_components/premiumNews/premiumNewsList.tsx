@@ -1,23 +1,16 @@
 
+import { IPost } from "@/lib/type";
+import { getPremiumNews } from "../../_action/getPremiumNews";
 import NewsCard from "./newsCard";
 
-interface PremiumNewsListProps {
-  news: Array<{
-    id: string;
-    title: string;
-    description: string;
-    image?: string;
-    category?: string;
-    publishedAt?: string;
-    readTime?: number;
-  }>;
-}
 
-const PremiumNewsList = ({
-  news,
-}: PremiumNewsListProps) => {
+
+const PremiumNewsList = async () => {
+  
+  const result = await getPremiumNews()
+
+  if (!result.success || result.data?.length === 0) {
     
-  if (!news.length) {
     return (
       <div className="flex min-h-60 items-center justify-center rounded-2xl border border-dashed">
         <div className="text-center">
@@ -35,8 +28,8 @@ const PremiumNewsList = ({
 
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {news.map((item) => (
-        <NewsCard key={item.id} news={item} />
+      {result.data.map((post : IPost) => (
+        <NewsCard key={post.id} post={post} />
       ))}
     </div>
   );
