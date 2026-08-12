@@ -3,15 +3,28 @@ import type { NextRequest } from "next/server";
 import { JwtPayload } from "jsonwebtoken";
 import { jwtUtils } from "./app/utils/jwtUtils";
 import { getNewAccessToken } from "./service/refreshToken";
-import { cookies } from "next/headers";
 
 // This function can be marked `async` if using `await` inside
 const AUTH_ROUTES = ["/login", "/register"];
 const PUBLIC_ROUTE = ["/", "/news"];
+const protectedRoutes = [
+  {
+    path: "/dashboard",
+    role: "USER",
+  },
+  {
+    path: "/admin-Dashboard",
+    role: "ADMIN",
+  },
+  {
+    path: "/author-Dashboard",
+    role: "AUTHOR",
+  },
+];
 
 export async function proxy(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
-  const cookieStore = await cookies();
+  const response = NextResponse.next();
 
   let accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
@@ -33,7 +46,7 @@ export async function proxy(request: NextRequest) {
     if (result.success) {
       const newAccessToken = result.data.accessToken;
 
-      cookieStore.set("accessToken", newAccessToken, {
+      response.cookies.set("accessToken", newAccessToken, {
         httpOnly: true,
         sameSite: "lax",
         maxAge: 60 * 60 * 24,
@@ -52,7 +65,7 @@ export async function proxy(request: NextRequest) {
   let userRole = null;
 
   if (!decodedAccessToken?.success) {
-    cookieStore.delete("accessToken");
+    response.cookies.delete("accessToken");
   }
 
   if (decodedAccessToken?.success && decodedAccessToken.data) {
@@ -80,18 +93,17 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (pathName.startsWith("/dashboard") && userRole !== "USER") {
-    return NextResponse.redirect(new URL("/unauthorized", request.url));
-  } else if (pathName.startsWith("/admin-Dashboard") && userRole !== "ADMIN") {
-    return NextResponse.redirect(new URL("/unauthorized", request.url));
-  } else if (
-    pathName.startsWith("/author-Dashboard") &&
-    userRole !== "AUTHOR"
-  ) {
-    return NextResponse.redirect(new URL("/unauthorized", request.url));
-  }
+ const restrictedRoute = protectedRoutes.find((route) =>
+  pathName.startsWith(route.path)
+);
 
-  NextResponse.next();
+if (restrictedRoute && userRole !== restrictedRoute.role) {
+  return NextResponse.redirect(
+    new URL("/unauthorized", request.url)
+  );
+}
+
+ return NextResponse.next();
 }
 
 export const config = {
