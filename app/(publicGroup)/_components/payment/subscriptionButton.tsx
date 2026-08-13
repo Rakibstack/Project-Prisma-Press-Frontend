@@ -1,64 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useActionState, useEffect } from "react";
+import { subscripePremium } from "../../_action/subscripePremium";
+import { toast } from "sonner";
 
-interface SubscriptionButtonProps {
-  priceId: string;
-  isPopular?: boolean;
-}
+const SubscriptionButton = () => {
+  const [state, subscripeAction, pending] = useActionState(
+    subscripePremium,
+    null,
+  );
 
-const SubscriptionButton = ({
-  priceId,
-  isPopular = false,
-}: SubscriptionButtonProps) => {
-  const [loading, setLoading] = useState(false);
-
-  const handleSubscribe = async () => {
-    try {
-      setLoading(true);
-
-      // Later:
-      // const result = await createCheckoutSession(priceId);
-
-      console.log("Subscribe:", priceId);
-
-      // Example:
-      // if (result.success) {
-      //   window.location.href = result.data.url;
-      // }
-    } catch (error) {
-      console.error("Subscription error:", error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (!state) return;
+    if (!state?.success) {
+      toast.error(state?.message || "Failed To Start Chackout");
     }
-  };
+  }, [state]);
 
   return (
-    <Button
-      onClick={handleSubscribe}
-      disabled={loading}
-      size="lg"
-      className="w-full gap-2"
-    >
-      {loading ? (
-        <>
-          <Loader2 className="size-4 animate-spin" />
-          Processing...
-        </>
-      ) : (
-        <>
-          {isPopular ? (
-            <Sparkles className="size-4" />
-          ) : null}
-
-          Subscribe Now
-          <ArrowRight className="size-4" />
-        </>
-      )}
-    </Button>
+    <form action={subscripeAction}>
+      <Button type="submit" size="lg" className="w-full gap-2">
+        <Sparkles className="size-4" />
+        {pending ? "Redirecting.." : " Subscribe Now"}
+        <ArrowRight className="size-4" />
+      </Button>
+    </form>
   );
 };
 

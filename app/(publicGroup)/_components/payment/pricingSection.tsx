@@ -179,8 +179,6 @@ const PricingSection = () => {
                   {/* CTA */}
                   <div className="mt-8">
                     <SubscriptionButton
-                      priceId={plan.priceId}
-                      isPopular={plan.popular}
                     />
                   </div>
                 </CardContent>

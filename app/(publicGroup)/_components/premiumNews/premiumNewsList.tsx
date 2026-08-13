@@ -1,9 +1,6 @@
-
 import { IPost } from "@/lib/type";
 import { getPremiumNews } from "../../_action/getPremiumNews";
 import NewsCard from "./newsCard";
-
-
 
 const PremiumNewsList = async () => {
   

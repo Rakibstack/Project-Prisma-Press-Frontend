@@ -5,6 +5,7 @@ import {
   CalendarDays,
   Clock3,
   Crown,
+  MessageCircle,
   Newspaper,
 } from "lucide-react";
 
@@ -14,6 +15,8 @@ import { IPost } from "@/lib/type";
 
 
 const NewsCard = ( { post }: { post: IPost }) => {
+
+  const commentcount = post.comment ? post.comment.length : 0;
   return (
     <Card className="group overflow-hidden border-border/60 bg-card py-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
@@ -23,6 +26,8 @@ const NewsCard = ( { post }: { post: IPost }) => {
             src={post.thumbnail || ""}
             alt={post.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
@@ -76,15 +81,16 @@ const NewsCard = ( { post }: { post: IPost }) => {
         </p>
 
         {/* Footer */}
-        <div className="mt-5 flex items-center justify-between border-t pt-4">
-          {/* {post.readTime ? (
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <div className="mt-5 flex items-center gap-2 justify-between border-t pt-4">
+
+           <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Clock3 className="size-3.5" />
-              {post.readTime} min read
+              {post.views} views
             </span>
-          ) : (
-            <span />
-          )} */}
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MessageCircle className="size-3.5" />
+              {commentcount} comments
+            </span>
 
           <Link
             href={post.isPremium ? `/premium/${post.id}` : `/news/${post.id}`}
