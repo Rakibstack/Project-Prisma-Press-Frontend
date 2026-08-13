@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import SubscriptionButton from "./subscriptionButton";
-
+import { getSubscriptionStatus } from "../../_action/getSubscriptionStatus";
 
 const plans = [
   {
@@ -48,7 +48,11 @@ const plans = [
   },
 ];
 
-const PricingSection = () => {
+const PricingSection =async () => {
+
+   const statusResult = await getSubscriptionStatus();
+   const isActive = Boolean(statusResult.success && statusResult.data?.isSubscribed);
+   
   return (
     <section className="relative overflow-hidden">
       {/* Decorative background */}
@@ -120,6 +124,9 @@ const PricingSection = () => {
                 {plan.popular && (
                   <div className="absolute right-0 top-0 rounded-bl-xl bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground">
                     Most Popular
+                    {
+                      isActive && <Badge>ACTIVE</Badge>
+                    }
                   </div>
                 )}
 
@@ -177,10 +184,12 @@ const PricingSection = () => {
                   </ul>
 
                   {/* CTA */}
-                  <div className="mt-8">
+                  {
+                    !isActive && <div className="mt-8">
                     <SubscriptionButton
                     />
                   </div>
+                  }
                 </CardContent>
               </Card>
             );
