@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { JwtPayload } from "jsonwebtoken";
 import { jwtUtils } from "./app/utils/jwtUtils";
 import { getNewAccessToken } from "./service/refreshToken";
+import { getSubscriptionStatus } from "./app/(publicGroup)/_action/getSubscriptionStatus";
 
 // This function can be marked `async` if using `await` inside
 const AUTH_ROUTES = ["/login", "/register"];
@@ -93,17 +94,25 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
- const restrictedRoute = protectedRoutes.find((route) =>
-  pathName.startsWith(route.path)
-);
-
-if (restrictedRoute && userRole !== restrictedRoute.role) {
-  return NextResponse.redirect(
-    new URL("/unauthorized", request.url)
+  const restrictedRoute = protectedRoutes.find((route) =>
+    pathName.startsWith(route.path),
   );
-}
 
- return NextResponse.next();
+  if (restrictedRoute && userRole !== restrictedRoute.role) {
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  }
+  
+  if (pathName === "/premium") {
+    const statusResult = await getSubscriptionStatus();
+    const isActive = Boolean(
+      statusResult.success && statusResult.data?.isSubscribed,
+    );
+    if (!isActive) {
+      return NextResponse.redirect(new URL("/payment", request.url));
+    }
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

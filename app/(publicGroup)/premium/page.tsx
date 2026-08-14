@@ -1,11 +1,15 @@
-
 import { Crown, Sparkles } from "lucide-react";
 import { Suspense } from "react";
 import PremiumNewsList from "../_components/premiumNews/premiumNewsList";
 import PremiumSkeleton from "../_components/premiumNews/premiumSkeleton";
 
-
-const PremiumPage = () => {
+const PremiumPage =  async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  // const search = await searchParams;
+  
   return (
     <main className="min-h-screen bg-background">
       {/* Hero */}
@@ -24,16 +28,13 @@ const PremiumPage = () => {
             </div>
 
             <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">
-              Stories worth{" "}
-              <span className="text-primary">
-                your time.
-              </span>
+              Stories worth <span className="text-primary">your time.</span>
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-              Get access to carefully selected stories, expert
-              insights, and in-depth articles created for readers
-              who want to go beyond the headlines.
+              Get access to carefully selected stories, expert insights, and
+              in-depth articles created for readers who want to go beyond the
+              headlines.
             </p>
           </div>
 
@@ -45,9 +46,7 @@ const PremiumPage = () => {
               </div>
 
               <div>
-                <p className="text-sm font-semibold">
-                  Curated content
-                </p>
+                <p className="text-sm font-semibold">Curated content</p>
                 <p className="text-xs text-muted-foreground">
                   Hand-picked stories
                 </p>
@@ -60,9 +59,7 @@ const PremiumPage = () => {
               </div>
 
               <div>
-                <p className="text-sm font-semibold">
-                  Premium access
-                </p>
+                <p className="text-sm font-semibold">Premium access</p>
                 <p className="text-xs text-muted-foreground">
                   Exclusive articles
                 </p>
