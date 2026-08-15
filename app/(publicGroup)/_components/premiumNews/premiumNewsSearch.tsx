@@ -1,39 +1,32 @@
 "use client";
 import { Search, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
+import {  useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const PremiumNewsSearch = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const debounceReference = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("searchTerm") || "",
   );
 
   const [isPending, startTransition] = useTransition();
+  // const debounceReference = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSearch = () => {
-    
-    if (debounceReference.current) {
-      clearTimeout(debounceReference.current);
+    const params = new URLSearchParams();
+
+    if (searchTerm.trim()) {
+      params.set("searchTerm", searchTerm.trim());
+    } else {
+      params.delete("searchTerm");
     }
-    debounceReference.current = setTimeout(() => {
-      const params = new URLSearchParams();
 
-      if (searchTerm.trim()) {
-        params.set("searchTerm", searchTerm.trim());
-      } else {
-        params.delete("searchTerm");
-      }
-
-      startTransition(() => {
-        router.replace(`/premium?${params.toString()}`);
-      });
-    }, 500);
+    startTransition(() => {
+      router.replace(`/premium?${params.toString()}`);
+    });
   };
 
   const handleClear = () => {
