@@ -2,6 +2,7 @@ import { Crown, Sparkles } from "lucide-react";
 import { Suspense } from "react";
 import PremiumNewsList from "../_components/premiumNews/premiumNewsList";
 import PremiumSkeleton from "../_components/premiumNews/premiumSkeleton";
+import PremiumNewsSearch from "../_components/premiumNews/premiumNewsSearch";
 
 const PremiumPage =  async ({
   searchParams,
@@ -70,7 +71,8 @@ const PremiumPage =  async ({
 
       {/* News */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mb-8">
+       <div className="mb-8 flex flex-col items-center justify-between gap-126 sm:flex-row">
+         <div className="mb-8">
           <h2 className="text-2xl font-bold tracking-tight">
             Latest Premium News
           </h2>
@@ -79,7 +81,9 @@ const PremiumPage =  async ({
             Discover our latest premium stories and insights.
           </p>
         </div>
+        <PremiumNewsSearch></PremiumNewsSearch>
 
+       </div>
         <Suspense fallback={<PremiumSkeleton />}>
           <PremiumNewsList searchParams={searchParams} />
         </Suspense>

@@ -2,11 +2,16 @@
 import { cookies } from "next/headers";
 
 export const getPremiumNews = async ({
-  search,
+  query,
 }: {
-  search?: { [key: string]: string | string[] | undefined };
+  query?: { [key: string]: string | string[] | undefined };
 }) => {
-  const searchTerm = `${search?.searchTerm ? `?searchTerm=${search!.searchTerm}` : ""}`;  
+
+  const param = new URLSearchParams();
+  if (query?.searchTerm) {
+    param.set("searchTerm", query.searchTerm as string);
+  }
+
   const cookieStore = await cookies();
 
   const accessToken = cookieStore.get("accessToken")?.value;
@@ -17,20 +22,21 @@ export const getPremiumNews = async ({
     };
   }
 
-  const res = await fetch(`${process.env.NEXT_BACKEN_URL}/api/premium${searchTerm}`, {
-    headers: {
-      Cookie: `accessToken=${accessToken}`,
-    },
+  const res = await fetch(
+    `${process.env.NEXT_BACKEN_URL}/api/premium?${param.toString()}`,
+    {
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+      },
 
-    cache: "force-cache",
-    next: {
-      revalidate: 60 * 60 * 6, // 6 hours,
-      tags: ["premium-posts"],
+      cache: "force-cache",
+      next: {
+        revalidate: 60 * 60 * 6, // 6 hours,
+        tags: ["premium-posts"],
+      },
     },
-  });
+  );
 
   const result = await res.json();
   return result;
 };
-
-

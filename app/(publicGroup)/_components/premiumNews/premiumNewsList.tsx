@@ -8,9 +8,9 @@ const PremiumNewsList = async ({
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
 
-  const search = await searchParams;
+  const query = await searchParams;
   
-  const result = await getPremiumNews({search})
+  const result = await getPremiumNews({query})
 
   if (!result.success || result.data?.length === 0) {
     
