@@ -75,6 +75,7 @@ type NavberProps = {
 
 export default function Navber({ user }: NavberProps) {
   const router = useRouter();
+  
 
   const handleUserMenuAction = async (action: string) => {
     if (action === "logout") {

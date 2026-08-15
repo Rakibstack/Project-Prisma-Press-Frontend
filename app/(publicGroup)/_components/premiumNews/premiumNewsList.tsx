@@ -2,9 +2,15 @@ import { IPost } from "@/lib/type";
 import { getPremiumNews } from "../../_action/getPremiumNews";
 import NewsCard from "./newsCard";
 
-const PremiumNewsList = async () => {
+const PremiumNewsList = async ({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+
+  const search = await searchParams;
   
-  const result = await getPremiumNews()
+  const result = await getPremiumNews({search})
 
   if (!result.success || result.data?.length === 0) {
     

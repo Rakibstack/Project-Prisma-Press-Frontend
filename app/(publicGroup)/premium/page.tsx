@@ -8,7 +8,6 @@ const PremiumPage =  async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  // const search = await searchParams;
   
   return (
     <main className="min-h-screen bg-background">
@@ -82,7 +81,7 @@ const PremiumPage =  async ({
         </div>
 
         <Suspense fallback={<PremiumSkeleton />}>
-          <PremiumNewsList />
+          <PremiumNewsList searchParams={searchParams} />
         </Suspense>
       </section>
     </main>
