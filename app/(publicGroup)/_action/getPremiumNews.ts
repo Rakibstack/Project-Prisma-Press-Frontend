@@ -8,6 +8,7 @@ export const getPremiumNews = async ({
 }) => {
 
   const param = new URLSearchParams();
+  
   if (query?.searchTerm) {
     param.set("searchTerm", query.searchTerm as string);
   }

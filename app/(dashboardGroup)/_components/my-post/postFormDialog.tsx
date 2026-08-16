@@ -1,13 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ImagePlus,
-  Loader2,
-} from "lucide-react";
+import { ImagePlus, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
 import {
   Dialog,
   DialogContent,
@@ -43,29 +39,17 @@ const PostFormDialog = ({
   mode,
   post,
 }: PostFormDialogProps) => {
-  // =========================
-  // FORM STATE
-  // =========================
+  const [formData, setFormData] = useState<FormData>({
+    title: post?.title ?? "",
+    content: post?.content ?? "",
+    category: post?.category ?? "",
+    image: post?.image ?? "",
+  });
 
-  const [formData, setFormData] =
-    useState<FormData>({
-      title: post?.title ?? "",
-      content: post?.content ?? "",
-      category: post?.category ?? "",
-      image: post?.image ?? "",
-    });
-
-  const [loading, setLoading] =
-    useState(false);
-
-  // =========================
-  // INPUT CHANGE
-  // =========================
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
 
@@ -73,29 +57,15 @@ const PostFormDialog = ({
       ...prev,
       [name]: value,
     }));
-  };
+  }; 
 
-  // =========================
-  // SUBMIT
-  // =========================
-
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       setLoading(true);
-
-      // =========================
-      // CREATE
-      // =========================
-
       if (mode === "create") {
-        console.log(
-          "Create Post:",
-          formData,
-        );
+        console.log("Create Post:", formData);
 
         // Later:
         // const result = await createPost(formData);
@@ -105,17 +75,11 @@ const PostFormDialog = ({
       // EDIT
       // =========================
 
-      if (
-        mode === "edit" &&
-        post
-      ) {
-        console.log(
-          "Update Post:",
-          {
-            id: post.id,
-            ...formData,
-          },
-        );
+      if (mode === "edit" && post) {
+        console.log("Update Post:", {
+          id: post.id,
+          ...formData,
+        });
 
         // Later:
         // const result = await updatePost(
@@ -127,18 +91,11 @@ const PostFormDialog = ({
       // Close dialog
       onOpenChange(false);
     } catch (error) {
-      console.error(
-        "Post form error:",
-        error,
-      );
+      console.error("Post form error:", error);
     } finally {
       setLoading(false);
     }
   };
-
-  // =========================
-  // CLOSE DIALOG
-  // =========================
 
   const handleClose = () => {
     if (!loading) {
@@ -147,20 +104,11 @@ const PostFormDialog = ({
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={handleClose}
-    >
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
-        {/* =========================
-            HEADER
-        ========================= */}
-
         <DialogHeader>
           <DialogTitle className="text-xl">
-            {mode === "create"
-              ? "Create a new post"
-              : "Edit your post"}
+            {mode === "create" ? "Create a new post" : "Edit your post"}
           </DialogTitle>
 
           <DialogDescription>
@@ -170,20 +118,11 @@ const PostFormDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        {/* =========================
-            FORM
-        ========================= */}
-
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5"
-        >
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* TITLE */}
 
           <div className="space-y-2">
-            <Label htmlFor="title">
-              Title
-            </Label>
+            <Label htmlFor="title">Title</Label>
 
             <Input
               id="title"
@@ -199,9 +138,7 @@ const PostFormDialog = ({
           {/* CATEGORY */}
 
           <div className="space-y-2">
-            <Label htmlFor="category">
-              Category
-            </Label>
+            <Label htmlFor="category">Category</Label>
 
             <Input
               id="category"
@@ -216,9 +153,7 @@ const PostFormDialog = ({
           {/* IMAGE */}
 
           <div className="space-y-2">
-            <Label htmlFor="image">
-              Image URL
-            </Label>
+            <Label htmlFor="image">Image URL</Label>
 
             <div className="relative">
               <ImagePlus className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -238,9 +173,7 @@ const PostFormDialog = ({
           {/* CONTENT */}
 
           <div className="space-y-2">
-            <Label htmlFor="content">
-              Content
-            </Label>
+            <Label htmlFor="content">Content</Label>
 
             <Textarea
               id="content"
@@ -254,10 +187,6 @@ const PostFormDialog = ({
             />
           </div>
 
-          {/* =========================
-              FOOTER
-          ========================= */}
-
           <DialogFooter className="gap-2 sm:gap-0">
             <Button
               type="button"
@@ -268,18 +197,10 @@ const PostFormDialog = ({
               Cancel
             </Button>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="gap-2"
-            >
-              {loading && (
-                <Loader2 className="size-4 animate-spin" />
-              )}
+            <Button type="submit" disabled={loading} className="gap-2">
+              {loading && <Loader2 className="size-4 animate-spin" />}
 
-              {mode === "create"
-                ? "Create Post"
-                : "Save Changes"}
+              {mode === "create" ? "Create Post" : "Save Changes"}
             </Button>
           </DialogFooter>
         </form>

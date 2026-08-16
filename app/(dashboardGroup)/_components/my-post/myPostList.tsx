@@ -17,7 +17,6 @@ interface MyPostListProps {
 
 const MyPostList = ({ posts }: MyPostListProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const [mode, setMode] = useState<"create" | "edit">(
     "create",
   );
@@ -25,43 +24,23 @@ const MyPostList = ({ posts }: MyPostListProps) => {
   const [selectedPost, setSelectedPost] =
     useState<Post | null>(null);
 
-  // =========================
-  // CREATE POST
-  // =========================
-
   const handleCreate = () => {
     setSelectedPost(null);
     setMode("create");
     setDialogOpen(true);
   };
-
-  // =========================
-  // EDIT POST
-  // =========================
-
   const handleEdit = (post: Post) => {
     setSelectedPost(post);
     setMode("edit");
     setDialogOpen(true);
   };
 
-  // =========================
-  // DELETE POST
-  // =========================
-
   const handleDelete = (post: Post) => {
     console.log("Delete post:", post.id);
-
-    // Later:
-    // await deletePost(post.id);
   };
 
   return (
     <div className="space-y-6">
-      {/* =========================
-          HEADER
-      ========================= */}
-
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">
@@ -81,11 +60,6 @@ const MyPostList = ({ posts }: MyPostListProps) => {
           Create Post
         </Button>
       </div>
-
-      {/* =========================
-          EMPTY STATE
-      ========================= */}
-
       {posts.length === 0 ? (
         <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed px-6 text-center">
           <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10">
@@ -110,9 +84,6 @@ const MyPostList = ({ posts }: MyPostListProps) => {
           </Button>
         </div>
       ) : (
-        /* =========================
-            POST LIST
-        ========================= */
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {posts.map((post) => (
@@ -125,10 +96,6 @@ const MyPostList = ({ posts }: MyPostListProps) => {
           ))}
         </div>
       )}
-
-      {/* =========================
-          CREATE / EDIT DIALOG
-      ========================= */}
 
       <PostFormDialog
         key={`${mode}-${selectedPost?.id ?? "create"}`}

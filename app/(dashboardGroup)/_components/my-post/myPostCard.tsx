@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 
 export interface Post {
   id: string;
@@ -45,6 +46,7 @@ const MyPostCard = ({
   onEdit,
   onDelete,
 }: MyPostCardProps) => {
+  
   const getStatusVariant = () => {
     switch (post.status) {
       case "PUBLISHED":
@@ -66,7 +68,10 @@ const MyPostCard = ({
       {/* Image */}
       <div className="relative aspect-[16/9] overflow-hidden bg-muted">
         {post.image ? (
-          <img
+          <Image
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
             src={post.image}
             alt={post.title}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
