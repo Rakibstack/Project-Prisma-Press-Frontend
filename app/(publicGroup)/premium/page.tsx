@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import PremiumNewsList from "../_components/premiumNews/premiumNewsList";
 import PremiumSkeleton from "../_components/premiumNews/premiumSkeleton";
 import PremiumNewsSearch from "../_components/premiumNews/premiumNewsSearch";
+import PremiumNewsFilter from "../_components/premiumNews/premiumNewsFilter";
 
 const PremiumPage =  async ({
   searchParams,
@@ -71,7 +72,7 @@ const PremiumPage =  async ({
 
       {/* News */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-       <div className="mb-8 flex flex-col items-center justify-between gap-126 sm:flex-row">
+       <div className="mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
          <div className="mb-8">
           <h2 className="text-2xl font-bold tracking-tight">
             Latest Premium News
@@ -82,6 +83,7 @@ const PremiumPage =  async ({
           </p>
         </div>
         <PremiumNewsSearch></PremiumNewsSearch>
+        <PremiumNewsFilter></PremiumNewsFilter>
 
        </div>
         <Suspense fallback={<PremiumSkeleton />}>

@@ -1,7 +1,7 @@
 "use client";
 import { Search, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {  useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -23,6 +23,7 @@ const PremiumNewsSearch = () => {
     } else {
       params.delete("searchTerm");
     }
+    params.set("page", "1");
 
     startTransition(() => {
       router.replace(`/premium?${params.toString()}`);
@@ -32,8 +33,9 @@ const PremiumNewsSearch = () => {
   const handleClear = () => {
     setSearchTerm("");
 
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
     params.delete("searchTerm");
+    params.set("page", "1");
 
     startTransition(() => {
       router.replace(`/premium?${params.toString()}`);
@@ -52,7 +54,7 @@ const PremiumNewsSearch = () => {
         <Search className="absolute left-4 size-5 text-muted-foreground" />
 
         <Input
-          defaultValue={searchTerm}
+          value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Search premium news..."

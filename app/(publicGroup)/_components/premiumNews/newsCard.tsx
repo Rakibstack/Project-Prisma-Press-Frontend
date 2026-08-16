@@ -65,7 +65,7 @@ const NewsCard = ( { post }: { post: IPost }) => {
           {post.createdAt && (
             <span className="flex items-center gap-1.5">
               <CalendarDays className="size-3.5" />
-              {post.createdAt}
+              {new Date(post.createdAt).toLocaleDateString()}
             </span>
           )}
         </div>
