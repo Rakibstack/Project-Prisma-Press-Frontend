@@ -3,8 +3,10 @@ import Link from "next/link";
 import {
   BellIcon,
   CreditCardIcon,
+  LayoutDashboard,
   LayoutDashboardIcon,
   LogOutIcon,
+  LucideLayoutDashboard,
   SettingsIcon,
   SparklesIcon,
   UserIcon,
@@ -36,13 +38,14 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-  { label: "Services", href: "/services" },
   { label: "News", href: "/news" },
   { label: "Premium", href: "/premium" },
+  { label: "Dashboard", href: "/dashboard" },
 ];
 
 const accountItems = [
-  { label: "Profile", icon: UserIcon },
+  { label: "Profile", icon: UserIcon, action: "profile" },
+  { label: "Dashboard", icon: LucideLayoutDashboard, action: "dashboard" },
   { label: "Settings", icon: SettingsIcon },
   { label: "Billing", icon: CreditCardIcon },
 ];
@@ -75,11 +78,20 @@ type NavberProps = {
 
 export default function Navber({ user }: NavberProps) {
   const router = useRouter();
-  
+  const role = user.data?.userProfile?.role;
 
   const handleUserMenuAction = async (action: string) => {
+    
+    if (action === "dashboard") {
+      if (role === "USER") {
+        router.push("/dashboard");
+      } else if (role === "ADMIN") {
+        router.push("/admin-Dashboard");
+      }
+      return;
+    }
+    // Handle logout logic here
     if (action === "logout") {
-      // Handle logout logic here
       await logoutUser();
       toast.success("User Logout Successfully");
       router.push("/login");
