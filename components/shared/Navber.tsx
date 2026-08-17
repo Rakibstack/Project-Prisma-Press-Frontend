@@ -81,7 +81,6 @@ export default function Navber({ user }: NavberProps) {
   const role = user.data?.userProfile?.role;
 
   const handleUserMenuAction = async (action: string) => {
-    
     if (action === "dashboard") {
       if (role === "USER") {
         router.push("/dashboard");

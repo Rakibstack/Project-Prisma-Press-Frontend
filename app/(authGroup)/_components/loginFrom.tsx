@@ -7,6 +7,7 @@ import { loginAction } from "../_action/authAction";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const initialState = {
   success: null,
@@ -19,7 +20,13 @@ const initialState = {
 };
 
 export default function LoginFrom() {
-  const [state, action, pending] = useActionState(loginAction, initialState);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") as string;
+
+  const [state, action, pending] = useActionState(
+    loginAction.bind(null, redirectTo),
+    initialState,
+  );
 
   useEffect(() => {
     if (state.success === null) return;
@@ -72,7 +79,10 @@ export default function LoginFrom() {
             </Button>
             <span className="mt-2">
               New here Please?
-              <Link href={'/register'} className="font-bold ">{' '}Register</Link>
+              <Link href={"/register"} className="font-bold ">
+                {" "}
+                Register
+              </Link>
             </span>
           </CardFooter>
         </form>

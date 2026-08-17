@@ -14,7 +14,11 @@ type prevState = {
   };
 };
 
-export const loginAction = async (prevState: prevState, formData: FormData) => {
+export const loginAction = async (
+  redirectTo: string,
+  prevState: prevState,
+  formData: FormData,
+) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -48,13 +52,22 @@ export const loginAction = async (prevState: prevState, formData: FormData) => {
     });
 
     const decodedToken = jwt.decode(result.data.accessToken) as JwtPayload;
-    if (decodedToken.role === "USER") {
-      redirect("/dashboard", "replace");
-    } else if (decodedToken.role === "ADMIN") {
-      redirect("/admin-Dashboard", "replace");
-    } else if (decodedToken.role === "AUTHOR") {
-      redirect("/author-Dashboard", "replace");
+    if (
+      redirectTo &&
+      typeof redirectTo === "string" &&
+      redirectTo.startsWith("/") &&
+      !redirectTo.startsWith("//")
+    ){
+      redirect(redirectTo)
     }
+    
+      if (decodedToken.role === "USER") {
+        redirect("/dashboard", "replace");
+      } else if (decodedToken.role === "ADMIN") {
+        redirect("/admin-Dashboard", "replace");
+      } else if (decodedToken.role === "AUTHOR") {
+        redirect("/author-Dashboard", "replace");
+      }
   }
 
   return result;

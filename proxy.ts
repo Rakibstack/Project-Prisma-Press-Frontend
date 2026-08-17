@@ -97,7 +97,11 @@ export async function proxy(request: NextRequest) {
   );
 
   if (!accessToken && !isPublicRoute && !isAuthRoute) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    
+    const loginUrl = new URL("/login", request.url)
+    loginUrl.searchParams.set('redirectTo',pathName)
+
+    return NextResponse.redirect(loginUrl);
   }
 
   const restrictedRoute = protectedRoutes.find((route) =>
