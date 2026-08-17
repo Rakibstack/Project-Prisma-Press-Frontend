@@ -4,6 +4,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { jwtUtils } from "./app/utils/jwtUtils";
 import { getNewAccessToken } from "./service/refreshToken";
 import { getSubscriptionStatus } from "./app/(publicGroup)/_action/getSubscriptionStatus";
+import { cookies } from "next/headers";
 
 // This function can be marked `async` if using `await` inside
 const AUTH_ROUTES = ["/login", "/register"];
@@ -25,7 +26,7 @@ const protectedRoutes = [
 
 export async function proxy(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
-  const response = NextResponse.next();
+  const cookieStore = cookies()
 
   let accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
@@ -40,18 +41,22 @@ export async function proxy(request: NextRequest) {
         process.env.JWT_REFRESH_SECRET as string,
       )
     : null;
+    
 
   if (!decodedAccessToken?.success && decodedRefreshToken?.success) {
     const result = await getNewAccessToken();
-
+    
+    
     if (result.success) {
       const newAccessToken = result.data.accessToken;
 
-      response.cookies.set("accessToken", newAccessToken, {
+      (await cookieStore).set("accessToken", newAccessToken, {
         httpOnly: true,
+        secure: true,
         sameSite: "lax",
         maxAge: 60 * 60 * 24,
       });
+      
 
       accessToken = newAccessToken;
       decodedAccessToken = accessToken
@@ -60,13 +65,14 @@ export async function proxy(request: NextRequest) {
             process.env.JWT_ACCESS_SECRET as string,
           )
         : null;
+        
     }
   }
 
   let userRole = null;
 
   if (!decodedAccessToken?.success) {
-    response.cookies.delete("accessToken");
+    (await cookieStore).delete("accessToken");
   }
 
   if (decodedAccessToken?.success && decodedAccessToken.data) {

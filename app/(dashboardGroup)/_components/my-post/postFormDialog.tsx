@@ -30,7 +30,7 @@ interface FormData {
   title: string;
   content: string;
   category: string;
-  image: string;
+  thumbnail: string;
 }
 
 const PostFormDialog = ({
@@ -43,7 +43,7 @@ const PostFormDialog = ({
     title: post?.title ?? "",
     content: post?.content ?? "",
     category: post?.category ?? "",
-    image: post?.image ?? "",
+    thumbnail: post?.thumbnail ?? "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -70,11 +70,6 @@ const PostFormDialog = ({
         // Later:
         // const result = await createPost(formData);
       }
-
-      // =========================
-      // EDIT
-      // =========================
-
       if (mode === "edit" && post) {
         console.log("Update Post:", {
           id: post.id,
@@ -153,16 +148,16 @@ const PostFormDialog = ({
           {/* IMAGE */}
 
           <div className="space-y-2">
-            <Label htmlFor="image">Image URL</Label>
+            <Label htmlFor="thumbnail">Thumbnail URL</Label>
 
             <div className="relative">
               <ImagePlus className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
 
               <Input
-                id="image"
-                name="image"
+                id="thumbnail"
+                name="thumbnail"
                 placeholder="https://example.com/image.jpg"
-                value={formData.image}
+                value={formData.thumbnail}
                 onChange={handleChange}
                 disabled={loading}
                 className="pl-9"

@@ -28,7 +28,7 @@ export interface Post {
   id: string;
   title: string;
   content: string;
-  image?: string | null;
+  thumbnail?: string | null;
   category?: string | null;
   status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   createdAt?: string;
@@ -67,12 +67,12 @@ const MyPostCard = ({
     <Card className="group overflow-hidden border-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
       <div className="relative aspect-[16/9] overflow-hidden bg-muted">
-        {post.image ? (
+        {post.thumbnail ? (
           <Image
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
-            src={post.image}
+            src={post.thumbnail || ""}
             alt={post.title}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
