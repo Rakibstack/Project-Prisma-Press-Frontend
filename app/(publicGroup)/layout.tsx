@@ -1,3 +1,4 @@
+import Footer from "@/components/shared/Footer";
 import Navber from "@/components/shared/Navber";
 import { getUser } from "@/service/getUser";
 import React from "react";
@@ -8,6 +9,7 @@ const publicLayout = async ({ children }: { children: React.ReactNode }) => {
     <div className="bg-gray-100">
       <Navber user={user}></Navber>
       {children}
+      <Footer></Footer>
     </div>
   );
 };
